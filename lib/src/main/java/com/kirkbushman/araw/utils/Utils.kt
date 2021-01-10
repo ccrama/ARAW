@@ -1,5 +1,6 @@
 package com.kirkbushman.araw.utils
 
+import ExtraQueryInterceptor
 import com.kirkbushman.araw.adapters.PolyJsonAdapterFactory
 import com.kirkbushman.araw.http.EnvelopedComment
 import com.kirkbushman.araw.http.EnvelopedCommentData
@@ -84,6 +85,7 @@ object Utils {
 
         val moshiFactory = MoshiConverterFactory.create(moshi)
         val nullRepliesInterceptor = NullRepliesInterceptor
+        val extraQueryParamInterceptor = ExtraQueryInterceptor
 
         val httpClient = if (logging) {
 
@@ -92,6 +94,7 @@ object Utils {
 
             OkHttpClient
                 .Builder()
+                .addInterceptor(extraQueryParamInterceptor)
                 .addInterceptor(nullRepliesInterceptor)
                 .addInterceptor(logger)
                 .build()
@@ -99,6 +102,7 @@ object Utils {
 
             OkHttpClient
                 .Builder()
+                .addInterceptor(extraQueryParamInterceptor)
                 .addInterceptor(nullRepliesInterceptor)
                 .build()
         }
